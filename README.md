@@ -6,6 +6,7 @@ This web application project is a homework for *100 Days of Code: The Complete P
 * User need to log in to save todo list
 * One user can have maximum of five todo lists, 10 tasks per list.
 
+[DEMO](https://cw-stock-query.herokuapp.com/)
 ![screenshot.png](screenshot.png)
 
 * 根據輸入的台股股號回傳五檔和即時份價量資訊 / Return Taiwan Stock intraday orders and volumes by given stock symbol.
