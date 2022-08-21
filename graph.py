@@ -11,7 +11,7 @@ def to_img(json_data):
         go.Bar(name='volume at Ask', y=json_df.price, x=json_df.volumeAtAsk, orientation='h', text=json_df.volumeAtAsk)
     ], )
 
-    fig.update_layout(barmode='stack', showlegend=False, xaxis_title="volume", yaxis_title="price", title="即時分價量")
+    fig.update_layout(barmode='stack', showlegend=False, xaxis_title="volume", yaxis_title="price")
 
     img_bytes = fig.to_image(format="png", width=600, height=350, scale=2)
     encoded = base64.b64encode(img_bytes)
