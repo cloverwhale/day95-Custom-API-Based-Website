@@ -1,0 +1,98 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+
+<!-- main content -->
+<div class="main">
+    <div class="search-area">
+        <form class="form form-horizontal" method="post" role="form">
+            <span>{{ form.stock_symbol.label }}</span>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_errors(form, hiddens="only") }}
+            {{ wtf.form_field(form.stock_symbol, form_type="inline") }}
+            {{ wtf.form_field(form.submit, button_map={"submit": "dark"}) }}
+        </form>
+    </div>
+    <div class="search-result-area">
+        {% if result and not result.is_suspended and not result.is_terminated %}
+        <div class="container">
+            <h1>{{ result.symbol_id }} - {{ result.name }} - {{ result.industry }}</h1>
+            {% if result.is_closed %}
+            <span>已收盤 / Closed</span>
+            {% endif %}
+            <hr>
+            <div class="row">
+                <div class="order col">
+                    <h2>五檔 / Orders @ {{ result.order_at }}</h2>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row header">
+                                <div class="col">買價 / Bid Price</div>
+                                <div class="col">量 / Volume</div>
+                            </div>
+                            {% for item in result.order.bids %}
+                            <div class="row {{ item.color }}">
+                                <div class="col">{{ item.price }}</div>
+                                <div class="col">{{ item.volume }}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col">
+                            <div class="row header">
+                                <div class="col">賣價 / Ask Price</div>
+                                <div class="col">量 / Volume</div>
+                            </div>
+                            {% for item in result.order.asks %}
+                            <div class="row {{ item.color }}">
+                                <div class="col">{{ item.price }}</div>
+                                <div class="col">{{ item.volume }}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="volumes col">
+                    <h2>即時分價量 / Volumes @ {{ result.volumes_at }}</h2>
+                    <div class="row">
+                        <div class="col">
+                            {{ graph|safe }}
+                        </div>
+                    </div>
+                    <div class="row header">
+                        <div class="col">成交價 / Price</div>
+                        <div class="col">成交量 / Volumes</div>
+                        <div class="col">內盤 / Sell</div>
+                        <div class="col">外盤 / Buy</div>
+                    </div>
+                    <!-- loop volumes -->
+                    {% for item in result.volumes %}
+                    <div class="row {{ item.color }}">
+                        <div class="col">{{ item.price }}</div>
+                        <div class="col">{{ item.volume }}</div>
+                        <div class="col">{{ item.volumeAtBid }}</div>
+                        <div class="col">{{ item.volumeAtAsk }}</div>
+                    </div>
+                    {% endfor %}
+                    <!-- loop volumes end -->
+                </div>
+            </div>
+        </div>
+        {% elif not result %}
+        <div class="container"></div>
+        {% else %}
+        <div class="container">
+            無法取得相關資料
+        </div>
+        {% endif %}
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p class="error-flash">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+</div>
+
+{% include "footer.html" %}
