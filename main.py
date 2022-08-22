@@ -25,7 +25,8 @@ def index():
         query_symbol = search_form.stock_symbol.data
         if query_symbol.isnumeric():
             search_result = Search(query_symbol).display_data
-            if search_result.get("volumes") is not None:
+            volumes_data = search_result.get("volumes")
+            if volumes_data is not None and len(volumes_data) > 0:
                 volumes_graph = graph.to_img(search_result["volumes"])
 
     return render_template("index.html", form=search_form, result=search_result, graph=volumes_graph)
