@@ -1,4 +1,4 @@
-# py14_CustomApiBasedWebsite
+# Custom API Based Website
 
 
 This web application project is a homework for *100 Days of Code: The Complete Python Pro Bootcamp for 2022.*
